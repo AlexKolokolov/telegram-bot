@@ -7,12 +7,11 @@ import scala.util.Random
   */
 object MessageHandler {
 
-  val futureQuestionStarters = List("will", "should", "must", "shall", "would")
+  val futureQuestionStarters = List("will", "should", "must", "shall", "would", "may")
 
   val probableFutureQuestionsAttributes = List(
     List("is", "are", "am") -> List("going to","gonna"),
-    List("do") -> List("have to"),
-    List("does") -> List("has to"))
+    List("do", "does") -> List("have to"))
 
   val pastQuestionsStarters = List("was","were","have","has","had")
 
