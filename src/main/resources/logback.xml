@@ -7,6 +7,27 @@
         </encoder>
     </appender>
 
+    <appender name="HISTORY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/history.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>logs/history-%i-log.zip</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>1MB</MaxFileSize>
+        </triggeringPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %d{HH:mm:ss.SSS} %logger{128} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="HistoryLogger" level="DEBUG">
+        <appender-ref ref="HISTORY_FILE" />
+    </logger>
+
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
     </root>

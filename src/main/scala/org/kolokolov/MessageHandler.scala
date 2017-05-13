@@ -3,7 +3,7 @@ package org.kolokolov
 import scala.util.Random
 
 /**
-  * Created by andersen on 13.05.2017.
+  * Created by Kolokolov on 13.05.2017.
   */
 object MessageHandler {
 
