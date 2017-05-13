@@ -36,7 +36,7 @@ object MessageHandler {
   val answersForNotSimpleQuestions = Vector(
     "I can only answer simple questions. Yes or no.",
     "Yes or no question, please.",
-    "YES of NO question only! OMG, It is not a rocket science!")
+    "YES or NO questions only! OMG, it is not a rocket science!")
 
   def isQuestion(sentence: String): Boolean = {
     sentence.endsWith("?")
