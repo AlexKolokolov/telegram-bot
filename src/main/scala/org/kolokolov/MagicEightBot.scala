@@ -7,6 +7,8 @@ import info.mukel.telegrambot4s.methods._
 import info.mukel.telegrambot4s.models._
 import org.kolokolov.MessageHandler._
 
+import scala.concurrent.Future
+
 /**
   * Created by Kolokolov on 12.05.2017.
   */
@@ -37,6 +39,5 @@ class MagicEightBot(val token: String) extends TelegramBot with Polling with Com
       request(SendMessage(msg.source, answer))
       logger.info(s"question: ${user.firstName} (${user.username.getOrElse("Unknown Nik")}) : $question -- bot's answer:  $answer")
     }
-
   }
 }
