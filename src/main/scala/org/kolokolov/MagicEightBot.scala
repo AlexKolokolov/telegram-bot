@@ -18,7 +18,6 @@ class MagicEightBot extends TelegramBot with Polling with Commands {
   override val logger = Logger("HistoryLogger")
 
   lazy val token: String = Source.fromFile("bot.token").getLines.mkString
-//  lazy val token = "357079812:AAEoVw6pO4bLTeEkv6_5wbrzDEsy0JztSCg"
 
   on("/start") {
     implicit msg => _ => {
