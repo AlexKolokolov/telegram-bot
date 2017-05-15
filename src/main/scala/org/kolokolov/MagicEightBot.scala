@@ -24,8 +24,8 @@ class MagicEightBot extends TelegramBot with Polling with Commands {
       for {
         user <- msg.from
       } {
-        reply(s"Hello, ${user.firstName}! Nice to meet you! I'm a magic 8 ball predicting future. Please, ask me something.")
-        logger.info(s"User ${user.firstName} ${user.lastName.getOrElse("'NoLastName'")} (${user.username.getOrElse("Unknown Nik")}) has connected")
+        reply(userGreeting(user))
+        logger.info(s"User ${user.firstName} ${user.lastName.getOrElse("'NoLastName'")} (${user.username.getOrElse("UnknownNick")}) has connected")
       }
     }
   }

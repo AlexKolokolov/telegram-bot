@@ -1,7 +1,10 @@
 package org.kolokolov
 
+import info.mukel.telegrambot4s.models.User
+
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
+
 /**
   * Created by Kolokolov on 13.05.2017.
   */
@@ -17,7 +20,7 @@ object MessageHandler {
 
   val pastQuestionsStarters = List("was","were","have","has","had")
 
-  val incorrectQuestionsStarters = List("i'm", "i am", "i have", "i need", "i should", "i would")
+  val incorrectQuestionsStarters = List("i'm", "i am", "i have", "i need", "i should", "i would", "i can", "i may")
 
   val greetingsAnswers = Vector(
     "Hello! Please, ask me a question.",
@@ -29,7 +32,7 @@ object MessageHandler {
     "Yes.", "No.", "Probably yes.", "Probably no.", "Ask later.",
     "Ask something else.", "Sure!", "No way!", "Without a doubt!",
     "I doubt it.", "I don't think so.", "Can't say for sure.",
-    "That's for sure!", "No doubt.")
+    "That's for sure!", "No doubt.", "Definitely NO!")
 
   val answersForNotQuestions = Vector(
     "Is it a question?",
@@ -56,43 +59,41 @@ object MessageHandler {
     "Yes or no question, please.",
     "YES or NO questions only! OMG, it is not a rocket science!")
 
-  private def startsWith(starters: List[String])(question: String): Boolean = starters match {
+  private def startsWithOneOf(starters: List[String])(question: String): Boolean = starters match {
     case Nil => false
-    case head :: tail => question.toLowerCase.startsWith(head) || startsWith(tail)(question)
+    case head :: tail => question.toLowerCase.startsWith(head) || startsWithOneOf(tail)(question)
   }
 
-  private def contains(starters: List[String])(question: String): Boolean = starters match {
+  private def containsOneOf(starters: List[String])(question: String): Boolean = starters match {
     case Nil => false
-    case head :: tail => question.toLowerCase.contains(head) || contains(tail)(question)
+    case head :: tail => question.toLowerCase.contains(head) || containsOneOf(tail)(question)
   }
 
-  def isQuestion(sentence: String): Boolean = {
-    sentence.endsWith("?")
-  }
+  def isQuestion(sentence: String): Boolean = sentence.endsWith("?")
 
-  def isIncorrectQuestion: String => Boolean = {
-    startsWith(incorrectQuestionsStarters)
-  }
+  def isIncorrectQuestion: String => Boolean = startsWithOneOf(incorrectQuestionsStarters)
 
   def ifFutureQuestion(question: String): Boolean = {
     def probablyFutureQuestion(question: String, attributes: List[(List[String],List[String])]): Boolean = attributes match {
       case Nil => false
-      case head :: tail =>  startsWith(head._1)(question) && contains(head._2)(question) || probablyFutureQuestion(question, tail)
+      case head :: tail =>  startsWithOneOf(head._1)(question) && containsOneOf(head._2)(question) || probablyFutureQuestion(question, tail)
     }
-    startsWith(futureQuestionStarters)(question) || probablyFutureQuestion(question,probableFutureQuestionsAttributes)
+    startsWithOneOf(futureQuestionStarters)(question) || probablyFutureQuestion(question,probableFutureQuestionsAttributes)
   }
 
   def isSimpleQuestion: String => Boolean = {
-    startsWith(futureQuestionStarters ++
+    startsWithOneOf(futureQuestionStarters ++
       pastQuestionsStarters ++
       probableFutureQuestionsAttributes.flatMap(t => t._1))
   }
 
-  def isGreeting: String => Boolean = {
-    startsWith(greetings)
-  }
+  def isGreeting: String => Boolean = startsWithOneOf(greetings)
 
   private def chooseRandomAnswer(answers: Vector[String]): String = answers(Random.nextInt(answers.length))
+
+  def userGreeting(user: User): String = {
+      s"Hello, ${user.firstName}! Nice to meet you! I'm a magic 8 ball predicting future. Please, ask me something."
+  }
 
   def answerQuestion(question: String)(implicit ec: ExecutionContext): Future[String] = {
     Future {
