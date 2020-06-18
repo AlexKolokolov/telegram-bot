@@ -45,7 +45,7 @@ object MessageHandler {
     "Are you sure that your question is correct? Please, use proper English grammar.",
     "Are you sure that your question is correct? I can't understand it.",
     "Sorry, it was probably not a correct question. I can't understand it. Reformulate it, please.",
-    "Are you sure that it was a correct question? Because I'm can't understand it. Could you reformulate it?"
+    "Are you sure that it was a correct question? Because I can't understand it. Could you reformulate it?"
   )
 
   val answersForNotFutureQuestions = Vector(
